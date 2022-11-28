@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.dto.UsuarioDto;
 import br.com.api.interfaces.UsuarioRepositorio;
 import br.com.api.modelos.Usuario;
+import br.com.api.servicos.UsuarioServicos;
 
 // CHAMADA DA CLASSE
 @RestController
@@ -28,11 +30,13 @@ public class UsuarioControle {
 	// INSTANCIANDO O REPOSITORIO
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
+	
+	@Autowired
+	private UsuarioServicos usuarioServicos;
 
-	// criar uma chamada com email e senha
 
 	// CHAMADA DO METODO PARA INCLUIR USUARIO
-	@PostMapping("/novousuario")
+	@PostMapping
 	public @ResponseBody Usuario novoUsuario(@Valid Usuario usuario) {
 		usuarioRepositorio.save(usuario);
 		return usuario;
@@ -40,7 +44,7 @@ public class UsuarioControle {
 	}
 
 	// CHAMADA DO METODO PARA OBTER TODOS OS USUARIOS
-	@GetMapping("/obterusuarios")
+	@GetMapping
 	public Iterable<Usuario> obterUsuarios() {
 		return usuarioRepositorio.findAll();
 
@@ -48,8 +52,8 @@ public class UsuarioControle {
 
 	// CHAMADA DO METODO PELO IDENTIFICADOR
 	@GetMapping(path = "/{id}")
-	public Optional<Usuario> obterUsuarioId(@PathVariable int id) {
-		return usuarioRepositorio.findById(id);
+	public UsuarioDto obterUsuarioId(@PathVariable int id) {
+		return usuarioServicos.findById(id);
 	}
 
 	// CHAMADA DO METODO PARA ALTERAR USUARIO

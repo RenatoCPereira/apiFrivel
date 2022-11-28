@@ -29,14 +29,14 @@ public class MetaControle {
 	private MetaRepositorio metaRepositorio;
 
 	// CHAMADA DO METODO PARA INCLUIR META
-	@PostMapping("/novameta")
+	@PostMapping
 	public @ResponseBody Meta novaMeta(@Valid Meta meta) {
 		metaRepositorio.save(meta);
 		return meta;
 	}
 
 	// CHAMADA DO METODO PARA OBTER TODAS AS METAS
-	@GetMapping("/obtermetas")
+	@GetMapping
 	public Iterable<Meta> obterMetas() {
 		return metaRepositorio.findAll();
 

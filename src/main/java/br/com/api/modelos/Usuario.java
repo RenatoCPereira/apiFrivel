@@ -1,6 +1,6 @@
 package br.com.api.modelos;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +22,6 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	// endereco
-
 	@Column(name = "Nome")
 	@NotBlank(message = "Informe o nome")
 	private String nome;
@@ -34,12 +32,20 @@ public class Usuario {
 
 	@Column(name = "Email")
 	@NotBlank(message = "Informe o email")
-	@Email
+
 	private String email;
 
 	@Column(name = "DataNascimento")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dataNascimento;
+	private Date nascimento;
+
+	@Column(name = "Estado")
+	@NotBlank(message = "Informe o estado")
+	private String estado;
+
+	@Column(name = "Cidade")
+	@NotBlank(message = "Informe a cidade")
+	private String cidade;
 
 	@OneToMany(mappedBy = "usuario")
 	private List<Meta> meta;
@@ -55,14 +61,17 @@ public class Usuario {
 
 	public Usuario(int id, @NotBlank(message = "Informe o nome") String nome,
 			@NotBlank(message = "Informe a senha") String senha,
-			@NotBlank(message = "Informe o email") @Email String email, LocalDate dataNascimento, List<Meta> meta,
-			List<Receita> receita, List<Gastos> gastos) {
-		super();
+			@NotBlank(message = "Informe o email") @Email String email, Date nascimento,
+			@NotBlank(message = "Informe o estado") String estado,
+			@NotBlank(message = "Informe a cidade") String cidade, List<Meta> meta, List<Receita> receita,
+			List<Gastos> gastos) {
 		this.id = id;
 		this.nome = nome;
 		this.senha = senha;
 		this.email = email;
-		this.dataNascimento = dataNascimento;
+		this.nascimento = nascimento;
+		this.estado = estado;
+		this.cidade = cidade;
 		this.meta = meta;
 		this.receita = receita;
 		this.gastos = gastos;
@@ -100,12 +109,28 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public LocalDate getDataNascimento() {
-		return dataNascimento;
+	public Date getNascimento() {
+		return nascimento;
 	}
 
-	public void setDataNascimento(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setNascimento(Date nascimento) {
+		this.nascimento = nascimento;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 
 	public List<Meta> getMeta() {
@@ -134,7 +159,7 @@ public class Usuario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dataNascimento, email, gastos, id, meta, nome, receita, senha);
+		return Objects.hash(cidade, email, estado, gastos, id, meta, nascimento, nome, receita, senha);
 	}
 
 	@Override
@@ -146,8 +171,9 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return Objects.equals(dataNascimento, other.dataNascimento) && Objects.equals(email, other.email)
-				&& Objects.equals(gastos, other.gastos) && id == other.id && Objects.equals(meta, other.meta)
+		return Objects.equals(cidade, other.cidade) && Objects.equals(email, other.email)
+				&& Objects.equals(estado, other.estado) && Objects.equals(gastos, other.gastos) && id == other.id
+				&& Objects.equals(meta, other.meta) && Objects.equals(nascimento, other.nascimento)
 				&& Objects.equals(nome, other.nome) && Objects.equals(receita, other.receita)
 				&& Objects.equals(senha, other.senha);
 	}
